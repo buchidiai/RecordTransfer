@@ -7,6 +7,7 @@ import {
     Grid,
 } from '@mui/material';
 import ColumnTitle from './components/columnTitle'
+import Header from './components/header'
 import { PatientList } from './components/PatientList'
 import { ProviderList } from './components/ProviderList'
 import { patients, providers } from './data'
@@ -19,10 +20,12 @@ const Column = styled(Grid)(({ theme }) => ({
 
 }));
 
+
+
 export default function App() {
     return (
         <Box sx={{ flexGrow: 1, padding: '25px' }}>
-            
+                <Header />
             <Grid container spacing={2} sx={{ marginTop: '100px', marginBottom: '100px' }}>
                 <Column item xs={6}>
                     <ColumnTitle title="Patients" count={patients.length} />

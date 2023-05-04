@@ -1,14 +1,10 @@
 import * as React from 'react';
-import { styled, useTheme } from '@mui/material/styles';
 import {
     Accordion,
     AccordionDetails,
     AccordionSummary,
     Box,
     Button,
-    Checkbox,
-    Grid,
-    TextField,
     Typography
 } from '@mui/material';
 
@@ -22,29 +18,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 
 export const ProviderList = ({ providers }) => {
-    const [patientChecked, setPatientChecked] = React.useState(new Set());
-
-    const [currentPatientAccordion, setCurrentPatientAccordion] = React.useState(-1);
-    const [currentFacilityAccordion, setCurrentFacilityAccordion] = React.useState(-1);
-
-    const [expandedPatient, setExpandedPatient] = React.useState(null);
     const [expandedFacility, setExpandedFacility] = React.useState(null);
-
-
-
-
-
-    const handlePatientCheckboxChange = (recordId) => () => {
-        const newChecked = new Set(patientChecked);
-        if (patientChecked.has(recordId)) {
-            newChecked.delete(recordId);
-        } else {
-            newChecked.add(recordId);
-        }
-        setPatientChecked(newChecked);
-    };
-
-
 
     const handleSendRecords = (providerId) => () => {
         console.log(`Sending records to provider ${providerId}`);
@@ -108,53 +82,3 @@ export const ProviderList = ({ providers }) => {
       </Box>
     );
   };
-
-//   <Box sx={{ width: '100%' }}>
-//   {providers.map((facility, index) => (
-//       <Accordion
-//           key={facility.id}
-//           expanded={expandedFacility === facility.id}
-//           onChange={handleFacilityAccordionChange(index)}
-//       >
-//           <AccordionSummary
-//               onChange={() => setExpandedFacility(expandedFacility === facility.id ? null : facility.id)}
-//               expandIcon={<ExpandMoreIcon />}
-//               aria-controls={`panel${index}-content`}
-//               id={`panel${index}-header`}
-//           >
-//               {facility.name}
-//           </AccordionSummary>
-//           <AccordionDetails>
-//               <Box sx={{ width: '100%' }}>
-//                   {facility.medicalProviders.map((provider) => (
-//                      <Card variant="outlined" sx={{ minWidth: 275 , marginY: 1}}>
-//                      <CardContent sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-//                        <Typography variant="h5" component="div">
-//                          {provider.name}
-//                        </Typography>
-//                        <div style={{ flexGrow: 1 }} />
-//                        <CardActions>
-//                          <Button variant="contained" color="primary" onClick={() => handleSendRecords(provider)}>
-//                            Send Records
-//                          </Button>
-//                        </CardActions>
-//                      </CardContent>
-//                      <CardContent>
-//                        <Typography  color="text.secondary">
-//                          Specialty: {provider.specialty}
-//                        </Typography>
-//                        <Typography variant="body2">
-//                          Phone: {provider.contactInfo.phone}
-//                          <br />
-//                          Email: {provider.contactInfo.email}
-//                          <br />
-//                          Address: {provider.contactInfo.address}
-//                        </Typography>
-//                      </CardContent>
-//                    </Card>
-//                   ))}
-//               </Box>
-//           </AccordionDetails>
-//       </Accordion>
-//   ))}
-// </Box>
