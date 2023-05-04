@@ -9,13 +9,15 @@ import {
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-export const PatientList = ({ patients }) => {
+export const PatientList = ({ patients, setCurrentPatient, currentPatient }) => {
     const [patientChecked, setPatientChecked] = React.useState(new Set());
     const [currentPatientAccordion, setCurrentPatientAccordion] = React.useState(-1);
     const [expandedPatient, setExpandedPatient] = React.useState(null);
 
     const handleAccordionChange = (index) => (event, isExpanded) => {
         const patient = patients[index]
+        const { id, name } = patient
+        setCurrentPatient({ id, name })
         if (isExpanded) {
             // Check if another patient accordion is already expanded
             if (expandedPatient !== null && expandedPatient !== index) {
@@ -31,15 +33,40 @@ export const PatientList = ({ patients }) => {
             setPatientChecked(new Set());
             setCurrentPatientAccordion(-1);
             setExpandedPatient(null);
+            setCurrentPatient({})
         }
     };
 
-    const handlePatientCheckboxChange = (recordId) => () => {
+    const handlePatientCheckboxChange = (patient, record) => () => {
         const newChecked = new Set(patientChecked);
-        if (patientChecked.has(recordId)) {
-            newChecked.delete(recordId);
+        if (patientChecked.has(record.id)) {
+            newChecked.delete(record.id);
+
+            // If the current patient's id matches the patient id associated with the record,
+            // delete the record from the current patient's medicalRecords array and set the updated array in state.
+            if (currentPatient.id === patient.id) {
+                const updatedMedicalRecords = currentPatient.medicalRecords.filter((r) => r.id !== record.id);
+                const updatedPatient = {
+                    ...currentPatient,
+                    medicalRecords: updatedMedicalRecords,
+                };
+                setCurrentPatient(updatedPatient);
+            }
         } else {
-            newChecked.add(recordId);
+            newChecked.add(record.id);
+
+            // If the current patient's id matches the patient id associated with the record,
+            // append the record to a new array and set the current patient's medicalRecords to the new array.
+            if (currentPatient.id === patient.id) {
+
+                const updatedMedicalRecords = currentPatient.medicalRecords ? [...currentPatient.medicalRecords, record] : [record];
+
+                const updatedPatient = {
+                    ...currentPatient,
+                    medicalRecords: updatedMedicalRecords,
+                };
+                setCurrentPatient(updatedPatient);
+            }
         }
         setPatientChecked(newChecked);
     };
@@ -68,7 +95,7 @@ export const PatientList = ({ patients }) => {
                             <div key={record.id}>
                                 <Checkbox
                                     checked={patientChecked.has(record.id)}
-                                    onChange={handlePatientCheckboxChange(record.id)}
+                                    onChange={handlePatientCheckboxChange(patient, record)}
                                     inputProps={{ 'aria-label': 'controlled' }}
                                 />
                                 {record.title} ({record.date})

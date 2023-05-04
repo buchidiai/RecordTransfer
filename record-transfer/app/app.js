@@ -23,19 +23,24 @@ const Column = styled(Grid)(({ theme }) => ({
 
 
 export default function App() {
+    const [currentPatient, setCurrentPatient] = React.useState({});
+
+    console.log(currentPatient)
+
     return (
         <Box sx={{ flexGrow: 1, padding: '25px' }}>
                 <Header />
             <Grid container spacing={2} sx={{ marginTop: '100px', marginBottom: '100px' }}>
                 <Column item xs={6}>
                     <ColumnTitle title="Patients" count={patients.length} />
-                    <PatientList patients={patients} />
+                    <PatientList patients={patients} setCurrentPatient={setCurrentPatient} currentPatient={currentPatient} />
                 </Column>
                 <Column item xs={6}>
                     <ColumnTitle title="Providers" count={providers.length} />
-                    <ProviderList providers={providers} />
+                    <ProviderList providers={providers} currentPatient={currentPatient} />
                 </Column>
             </Grid>
+          
         </Box>
     );
 }

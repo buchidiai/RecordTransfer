@@ -4,26 +4,20 @@ import {
     AccordionDetails,
     AccordionSummary,
     Box,
-    Button,
     Typography
 } from '@mui/material';
-
-
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
+import SendRecordsButton from './SendRecordsButton'
 
 
-export const ProviderList = ({ providers }) => {
+
+export const ProviderList = ({ providers, currentPatient }) => {
     const [expandedFacility, setExpandedFacility] = React.useState(null);
-
-    const handleSendRecords = (providerId) => () => {
-        console.log(`Sending records to provider ${providerId}`);
-    };
-
  
     const handleFacilityAccordionChange = (index) => {
       setExpandedFacility(expandedFacility === providers[index].id ? null : providers[index].id);
@@ -56,9 +50,7 @@ export const ProviderList = ({ providers }) => {
                       </Typography>
                       <div style={{ flexGrow: 1 }} />
                       <CardActions>
-                        <Button variant="contained" color="primary" onClick={ ()=>handleSendRecords(provider)}>
-                          Send Records
-                        </Button>
+                        <SendRecordsButton facility={facility} provider={provider} currentPatient={currentPatient} />
                       </CardActions>
                     </CardContent>
                     <CardContent>
